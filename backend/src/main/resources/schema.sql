@@ -1,0 +1,51 @@
+CREATE TABLE IF NOT EXISTS users (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  password_hash VARCHAR(100) NOT NULL,
+  role VARCHAR(10) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS sessions (
+  token CHAR(64) PRIMARY KEY,
+  user_id BIGINT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS settings (
+  k VARCHAR(50) PRIMARY KEY,
+  v VARCHAR(255) NOT NULL
+);
+CREATE TABLE IF NOT EXISTS members (
+  id BIGINT PRIMARY KEY,
+  name VARCHAR(120),
+  job_role VARCHAR(120),
+  skills VARCHAR(500),
+  exp_level VARCHAR(20),
+  availability VARCHAR(20),
+  user_id BIGINT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
+CREATE TABLE IF NOT EXISTS projects (
+  id BIGINT PRIMARY KEY,
+  name VARCHAR(200),
+  description TEXT,
+  tech_stack VARCHAR(500),
+  start_date DATE NULL,
+  deadline DATE NULL,
+  status VARCHAR(20),
+  progress INT DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS tasks (
+  id BIGINT PRIMARY KEY,
+  title VARCHAR(255),
+  assignee_id BIGINT NULL,
+  priority VARCHAR(10),
+  status VARCHAR(10),
+  deadline DATE NULL,
+  project_id BIGINT NOT NULL,
+  skills VARCHAR(500),
+  FOREIGN KEY (assignee_id) REFERENCES members(id) ON DELETE SET NULL,
+  FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
+);
+
