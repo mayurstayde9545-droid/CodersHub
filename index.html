@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Team Analyzer | SmartGroup</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<aside>
+<div class="logo">SmartGroup Team Analyzer<small>Team planning · task insights</small></div>
+<nav id="nav"></nav>
+<div style="flex:1"></div>
+<div id="me" style="padding:8px 4px;color:#c9d0ee"></div>
+<nav><button data-a="theme">🌓 Toggle theme</button></nav>
+</aside>
+<main id="main"></main>
+<button class="fab" data-a="chat" title="AI Assistant">🤖</button>
+<div class="chat" id="chat"><header>SmartGroup Team Assistant · Local</header><div id="msgs"></div><div class="chips" id="chips"></div>
+<form id="cf"><input id="ci" placeholder="Ask about team, pros and cons, workload, projects…" autocomplete="off"><button class="btn">Send</button></form></div>
+<div id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

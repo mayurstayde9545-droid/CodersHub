@@ -1,49 +1,33 @@
 # SmartGroup Team Analyzer
 
-A team planning and analysis project with a browser frontend and a Spring Boot/MySQL API.
+A browser-based team planning and analysis demo with separate Team Leader and Team Member accounts.
 
-## Files included
+## Start the app
 
-- `frontend/index.html` and `frontend/styles.css`: supplied browser UI files.
-- `backend/`: supplied Java API source, Maven configuration, MySQL schema, and environment-based connection settings.
+1. Extract this folder.
+2. Open `index.html` in a current browser.
+3. Choose **Create account** and select a role.
+4. Create the first Team Leader account. The first leader sets a leader access code; additional leaders need that code.
+5. Save the recovery key shown once after registration. Use **Forgot password?** on the sign-in form with your email, recovery key and new password. Older demo accounts receive a recovery key the next time they sign in.
+6. To create a Team Member account, enter the member's name, email, skills, skill level and password. The new profile is added to the roster with those skills.
 
-**The uploaded project is incomplete:** `index.html` loads `frontend/app.js`, but that file was not among the supplied files. The original README describes browser functionality implemented by that script. Add the original `app.js` before expecting the browser interface to work. No replacement script has been generated here, so application behavior and source are not fabricated.
+## What it includes
 
-The uploaded `face_attendance.zip` is a separate Python project and is not included in this SmartGroup repository.
+- Leader and member sign-up and sign-in screens, with recovery-key password reset.
+- A dashboard, project list, task board, team roster and timeline.
+- A refreshed dashboard with a welcome panel, progress ring, KPI cards, project progress, team capacity, upcoming tasks and smart alerts.
+- Select any project card to open its project overview, including completion, schedule, health, risks and project facts; a member-by-member breakdown shows completed and unfinished work, followed by the full task register.
+- Rule-based team analysis with team and individual pros/cons, skill coverage, workload, schedule estimates and project risks.
+- A separate AI Suggester reviews all active projects and open work, then prioritizes actions for overdue or unassigned tasks, workload balance, missing project skills, projects without task plans, incomplete project goals/deadlines and project risks. Leaders can add members directly from skill and capacity recommendations. Its finish estimate uses task-priority effort assumptions and available team capacity.
+- The AI Suggester shows completed/open task counts and its last-update time, refreshes from the latest workspace data, and syncs local changes from other open tabs.
+- Project-card auto-assignment routes open tasks only to members marked Available, ranking skill match, experience level and workload. For projects with no tasks, **Create & assign** makes starter tasks from the project tech stack and assigns them to available skill matches; unmatched tasks remain unassigned.
+- A local team assistant answers common questions about members, pros and cons, skills, capacity, tasks, deadlines, risks and projects, and explains how to use the app.
+- Members can update the status of their own assigned tasks. Leaders can manage team members, projects and tasks.
+- Members receive in-app bell notifications when tasks are assigned to them, including the task, project, priority and due date; notifications can be marked read.
+- Light and dark teal themes, reminders and downloadable project analysis reports.
 
-## Backend setup
+## Demo data and storage
 
-Requirements: Java 17+, Maven, and a running MySQL server. Create a database or allow the configured URL to create `smartgroup` on startup. Configure credentials in your shell; do not commit local passwords:
+The browser version saves demo accounts, password hashes, recovery-key hashes and workspace data in that browser's local storage. Different browsers or devices do not sync. A recovery key is shown only once and must be kept by the user; this offline demo cannot send reset emails. This makes it suitable for a local demo; shared multi-user deployment needs a connected server and database. The included Java files are API source and are not connected to the browser demo by default. Team analysis and assistant responses use local rules, do not call an external AI service, and cannot answer live or unrelated world-knowledge questions.
 
-PowerShell:
-
-```powershell
-$env:DB_URL = "jdbc:mysql://localhost:3306/smartgroup?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
-$env:DB_USER = "root"
-$env:DB_PASSWORD = "your-local-mysql-password"
-cd backend
-mvn spring-boot:run
-```
-
-The schema is initialized from `backend/src/main/resources/schema.sql`. `DB_PASSWORD` defaults to an empty value; set it in your environment for a protected MySQL account.
-
-## Frontend
-
-After restoring the missing `frontend/app.js`, open `frontend/index.html` in a browser. The supplied UI links to the API at its original behavior/configuration; check the restored script for its API URL and any required local serving steps.
-
-## GitHub
-
-Create an empty repository on GitHub (without initializing it with a README, license, or `.gitignore`), then run these commands from this folder. Replace the remote URL with your repository's HTTPS or SSH URL:
-
-```bash
-git init
-git add .
-git status
-git commit -m "Prepare SmartGroup Team Analyzer"
-git branch -M main
-git remote add origin https://github.com/USERNAME/smartgroup-team-analyzer.git
-git push -u origin main
-```
-
-Review `git status` before committing. `.gitignore` excludes build output, environment files, and common local secrets. Never put a real database password, API key, or private key in tracked files.
-
+The starter workspace opens with sample members, projects and tasks. Create a leader account first to explore the management controls.
