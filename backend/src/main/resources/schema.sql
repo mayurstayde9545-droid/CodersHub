@@ -16,16 +16,6 @@ CREATE TABLE IF NOT EXISTS settings (
   k VARCHAR(50) PRIMARY KEY,
   v VARCHAR(255) NOT NULL
 );
-CREATE TABLE IF NOT EXISTS email_verifications (
-  email VARCHAR(190) PRIMARY KEY,
-  code_hash VARCHAR(100) NOT NULL,
-  expires_at TIMESTAMP NOT NULL,
-  last_sent_at TIMESTAMP NOT NULL,
-  attempts INT NOT NULL DEFAULT 0,
-  verified_at TIMESTAMP NULL,
-  verification_token_hash VARCHAR(100) NULL,
-  welcome_sent BOOLEAN NOT NULL DEFAULT FALSE
-);
 CREATE TABLE IF NOT EXISTS members (
   id BIGINT PRIMARY KEY,
   name VARCHAR(120),
