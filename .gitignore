@@ -1,21 +1,14 @@
-# Java / Maven
-backend/target/
+**/target/
 *.class
-
-# Local secrets and environment files
+*.jar
 .env
 .env.*
 !.env.example
 *.pem
 *.key
-
-# IDE / OS
 .idea/
 .vscode/
 *.iml
-.DS_Store
-Thumbs.db
-
-# Logs
 *.log
-
+Thumbs.db
+.DS_Store

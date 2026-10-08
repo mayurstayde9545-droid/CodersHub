@@ -48,6 +48,7 @@ public class AuthController {
         String email = r.email() == null ? "" : r.email().trim().toLowerCase();
         if (name.isEmpty()) throw bad("Enter your full name.");
         if (!email.matches("^\\S+@\\S+\\.\\S+$")) throw bad("Enter a valid email address.");
+        if (!emailVerified(email)) throw bad("Verify your email address before creating an account.");
         if (r.password() == null || r.password().length() < 8) throw bad("Password must be at least 8 characters.");
         Integer exists = db.queryForObject("SELECT COUNT(*) FROM users WHERE email = ?", Integer.class, email);
         if (exists != null && exists > 0)
@@ -78,6 +79,8 @@ public class AuthController {
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody LoginReq r) {
         String email = r.email() == null ? "" : r.email().trim().toLowerCase();
+        if (!email.matches("^\\S+@\\S+\\.\\S+$")) throw bad("Enter a valid email address.");
+        if (!emailVerified(email)) throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Verify your email address before signing in.");
         var rows = db.queryForList("SELECT id, name, email, password_hash, role FROM users WHERE email = ?", email);
         if (rows.isEmpty() || r.password() == null || !enc.matches(r.password(), (String) rows.get(0).get("password_hash")))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect email or password.");
@@ -109,6 +112,11 @@ public class AuthController {
         }
     }
 
+    private boolean emailVerified(String email) {
+        var rows = db.queryForList("SELECT verified_at FROM email_verifications WHERE email = ?", email);
+        return !rows.isEmpty() && rows.get(0).get("verified_at") != null;
+    }
+
     private Map<String, Object> session(long id, String name, String email, String role) {
         byte[] b = new byte[32];
         new SecureRandom().nextBytes(b);
@@ -117,4 +125,3 @@ public class AuthController {
         return Map.of("token", token, "user", Map.of("id", id, "name", name, "email", email, "role", role));
     }
 }
-

@@ -30,4 +30,3 @@ class ApiErrors {
         return ResponseEntity.status(500).body(Map.of("error", "Server error: " + e.getMessage()));
     }
 }
-
